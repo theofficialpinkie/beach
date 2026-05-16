@@ -61,6 +61,11 @@ nav {
   min-height: 100%;
   transform: translate(-50%, -50%);
   border: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+#yt-player.is-ready {
+  opacity: 1;
 }
 .hero-overlay {
   position: absolute;
@@ -318,9 +323,14 @@ footer span {
             e.target.seekTo(START_SECONDS, true);
             e.target.playVideo();
           }
-          // When loop restarts the video, re-seek past the intro
-          if (e.data === YT.PlayerState.PLAYING && e.target.getCurrentTime() < START_SECONDS) {
-            e.target.seekTo(START_SECONDS, true);
+          if (e.data === YT.PlayerState.PLAYING) {
+            // When loop restarts the video, re-seek past the intro
+            if (e.target.getCurrentTime() < START_SECONDS) {
+              e.target.seekTo(START_SECONDS, true);
+              return;
+            }
+            // Reveal the iframe only once it's actually playing past the intro
+            document.getElementById('yt-player').classList.add('is-ready');
           }
         }
       }
