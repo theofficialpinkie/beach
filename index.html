@@ -284,6 +284,7 @@ footer span {
 <script>
   // ── CHANGE YOUR VIDEO ID HERE ──────────────────────────────
   var VIDEO_ID = '_BMi3usEwi8';
+  var START_SECONDS = 10;
   // ───────────────────────────────────────────────────────────
 
   var player;
@@ -296,6 +297,7 @@ footer span {
         mute: 1,
         loop: 1,
         playlist: VIDEO_ID,   // required for loop to work
+        start: START_SECONDS,
         controls: 0,
         disablekb: 1,
         fs: 0,
@@ -308,12 +310,17 @@ footer span {
       events: {
         onReady: function(e) {
           e.target.mute();
+          e.target.seekTo(START_SECONDS, true);
           e.target.playVideo();
         },
         onStateChange: function(e) {
-          // If video ends (shouldn't with loop=1+playlist, but just in case)
           if (e.data === YT.PlayerState.ENDED) {
+            e.target.seekTo(START_SECONDS, true);
             e.target.playVideo();
+          }
+          // When loop restarts the video, re-seek past the intro
+          if (e.data === YT.PlayerState.PLAYING && e.target.getCurrentTime() < START_SECONDS) {
+            e.target.seekTo(START_SECONDS, true);
           }
         }
       }
