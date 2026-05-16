@@ -50,8 +50,7 @@ nav {
   pointer-events: none;
   background: #000;
 }
-/* The div that YouTube replaces with an iframe */
-#yt-player {
+.hero-video {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -60,12 +59,8 @@ nav {
   min-width: 100%;
   min-height: 100%;
   transform: translate(-50%, -50%);
+  object-fit: cover;
   border: none;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-#yt-player.is-ready {
-  opacity: 1;
 }
 .hero-overlay {
   position: absolute;
@@ -228,12 +223,8 @@ footer span {
 <section class="hero">
 
   <div class="yt-bg">
-    <!-- ============================================================
-         TO CHANGE THE VIDEO:
-         Replace _BMi3usEwi8 (in 2 places below) with your YouTube video ID
-         Get the ID from: youtube.com/watch?v=YOUR_ID_HERE
-         ============================================================ -->
-    <div id="yt-player"></div>
+    <!-- To change the video: replace hero.mp4 with your file (or update the src below) -->
+    <video class="hero-video" src="hero.mp4" autoplay muted loop playsinline preload="auto"></video>
   </div>
 
   <div class="hero-overlay"></div>
@@ -284,83 +275,7 @@ footer span {
   <span>© 2025 Beach</span>
 </footer>
 
-<!-- YouTube IFrame API — loads the player properly with loop support -->
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  // ── CHANGE YOUR VIDEO ID HERE ──────────────────────────────
-  var VIDEO_ID = '_BMi3usEwi8';
-  var START_SECONDS = 10;
-  // ───────────────────────────────────────────────────────────
-
-  var player;
-  var revealed = false;
-
-  function waitForCleanPlayback(p) {
-    if (revealed) return;
-    var startTime = p.getCurrentTime();
-    var checks = 0;
-    var poll = setInterval(function() {
-      checks++;
-      var t = p.getCurrentTime();
-      // Need playback to have advanced by ~0.6s of real video time,
-      // which means the player is past any overlay/buffering chrome.
-      if (t > startTime + 0.6) {
-        clearInterval(poll);
-        // Small extra delay so YouTube's fade-out of its overlay finishes
-        setTimeout(function() {
-          revealed = true;
-          document.getElementById('yt-player').classList.add('is-ready');
-        }, 250);
-      } else if (checks > 80) {
-        // Safety: never wait more than ~8s
-        clearInterval(poll);
-        revealed = true;
-        document.getElementById('yt-player').classList.add('is-ready');
-      }
-    }, 100);
-  }
-
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-      videoId: VIDEO_ID,
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: VIDEO_ID,   // required for loop to work
-        start: START_SECONDS,
-        controls: 0,
-        disablekb: 1,
-        fs: 0,
-        iv_load_policy: 3,
-        modestbranding: 1,
-        rel: 0,
-        showinfo: 0,
-        playsinline: 1
-      },
-      events: {
-        onReady: function(e) {
-          e.target.mute();
-          e.target.seekTo(START_SECONDS, true);
-          e.target.playVideo();
-        },
-        onStateChange: function(e) {
-          if (e.data === YT.PlayerState.ENDED) {
-            e.target.seekTo(START_SECONDS, true);
-            e.target.playVideo();
-          }
-          if (e.data === YT.PlayerState.PLAYING) {
-            if (e.target.getCurrentTime() < START_SECONDS) {
-              e.target.seekTo(START_SECONDS, true);
-              return;
-            }
-            waitForCleanPlayback(e.target);
-          }
-        }
-      }
-    });
-  }
-
   // Card entrance animation
   const cards = document.querySelectorAll('.feature-card');
   const observer = new IntersectionObserver(entries => {

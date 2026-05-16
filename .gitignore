@@ -1,0 +1,7 @@
+# Source / pre-compressed video files (too large for GitHub)
+cover-landing.mp4
+*.mov
+source.mp4
+
+# macOS
+.DS_Store
