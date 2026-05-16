@@ -128,6 +128,8 @@ nav {
   0%, 100% { transform: scaleX(0.3); opacity: 0.4; }
   50% { transform: scaleX(1); opacity: 1; }
 }
+
+/* ── FEATURES ── */
 .features {
   background: #000;
   padding: 96px 52px 112px;
@@ -147,50 +149,131 @@ nav {
 .feature-card {
   border: 1px solid rgba(255,255,255,0.1);
   border-right: none;
-  padding: 52px 44px 64px;
+  border-bottom: none;
+  padding: 44px 36px 56px;
   position: relative;
   transition: background 0.35s;
   opacity: 0;
   transform: translateY(16px);
 }
-.feature-card:last-child {
+/* right border on last column */
+.feature-card:nth-child(3n) {
   border-right: 1px solid rgba(255,255,255,0.1);
 }
+/* bottom border on last row */
+.feature-card:nth-last-child(-n+3) {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+/* if 9 cards, last row is 7-8-9 */
 .feature-card:hover { background: rgba(255,255,255,0.03); }
 .feature-card.visible { animation: fadeUp 0.9s cubic-bezier(0.2,0,0,1) forwards; }
-.feature-card:nth-child(2).visible { animation-delay: 0.1s; }
-.feature-card:nth-child(3).visible { animation-delay: 0.2s; }
+
 .card-number {
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.18em;
   color: rgba(255,255,255,0.2);
   display: block;
-  margin-bottom: 52px;
+  margin-bottom: 44px;
 }
 .card-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(24px, 2.2vw, 32px);
+  font-size: clamp(22px, 1.9vw, 28px);
   font-weight: 300;
   line-height: 1.15;
   color: #fff;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 .card-title em { font-style: italic; }
 .card-desc {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 300;
-  line-height: 1.8;
+  line-height: 1.85;
   color: rgba(255,255,255,0.38);
 }
 .card-accent {
   position: absolute;
-  bottom: 52px;
-  left: 44px;
+  bottom: 44px;
+  left: 36px;
   width: 20px;
   height: 1px;
   background: rgba(255,255,255,0.18);
 }
+
+/* ── ABOUT ── */
+.about {
+  background: #000;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 96px 52px 112px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.about-label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 52px;
+  grid-column: 1 / -1;
+}
+.about-left {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s cubic-bezier(0.2,0,0,1), transform 0.9s cubic-bezier(0.2,0,0,1);
+}
+.about-left.visible { opacity: 1; transform: translateY(0); }
+
+.about-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 36px;
+}
+.about-name em {
+  display: block;
+  font-style: italic;
+  color: rgba(255,255,255,0.55);
+}
+
+.about-right {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s cubic-bezier(0.2,0,0,1) 0.15s, transform 0.9s cubic-bezier(0.2,0,0,1) 0.15s;
+}
+.about-right.visible { opacity: 1; transform: translateY(0); }
+
+.about-body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 2;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 28px;
+}
+.about-body:last-child { margin-bottom: 0; }
+
+.principles {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.principle {
+  background: #000;
+  padding: 20px 22px;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+}
+
 footer {
   background: #000;
   border-top: 1px solid rgba(255,255,255,0.07);
@@ -221,21 +304,16 @@ footer span {
 </nav>
 
 <section class="hero">
-
   <div class="yt-bg">
-    <!-- To change the video: replace hero.mp4 with your file (or update the src below) -->
     <video class="hero-video" src="hero.mp4" autoplay muted loop playsinline preload="auto"></video>
   </div>
-
   <div class="hero-overlay"></div>
-
   <div class="hero-content">
     <h1 class="hero-h1">
       Run Your Business
       <em>as easy as a walk<br>on the beach.</em>
     </h1>
   </div>
-
   <div class="scroll-cue">
     <div class="scroll-bar"></div>
     <span>Scroll</span>
@@ -249,24 +327,89 @@ footer span {
     <div class="feature-card">
       <span class="card-number">01</span>
       <div class="card-title">Appointment<br>Scheduling &<br><em>Reminders</em></div>
-      <p class="card-desc">Booking, confirmations, and reminders — handled automatically.</p>
+      <p class="card-desc">Booking, confirmations, and follow-up reminders handled automatically — zero back-and-forth.</p>
       <div class="card-accent"></div>
     </div>
 
     <div class="feature-card">
       <span class="card-number">02</span>
       <div class="card-title">Customer<br>Check-Ins,<br><em>On Auto-Pilot</em></div>
-      <p class="card-desc">Smart text updates that keep customers in the loop without any effort from you.</p>
+      <p class="card-desc">Smart text and email updates that keep customers in the loop without any effort from you.</p>
       <div class="card-accent"></div>
     </div>
 
     <div class="feature-card">
       <span class="card-number">03</span>
-      <div class="card-title">Proposals,<br>Invoices &<br><em>Reviews</em></div>
-      <p class="card-desc">Your back office, running itself — from quote to payment to 5-star review.</p>
+      <div class="card-title">Proposals,<br>Invoices &<br><em>Payments</em></div>
+      <p class="card-desc">Your back office, running itself — from quote to signed proposal to paid invoice.</p>
       <div class="card-accent"></div>
     </div>
 
+    <div class="feature-card">
+      <span class="card-number">04</span>
+      <div class="card-title">Missed Call<br>Text-Back &<br><em>Lead Capture</em></div>
+      <p class="card-desc">Every missed call gets an instant text reply. No lead slips through while you're on the job.</p>
+      <div class="card-accent"></div>
+    </div>
+
+    <div class="feature-card">
+      <span class="card-number">05</span>
+      <div class="card-title">Follow-Up<br>Sequences &<br><em>Re-Engagement</em></div>
+      <p class="card-desc">Automated follow-ups that nurture leads and win back past customers — sent at exactly the right time.</p>
+      <div class="card-accent"></div>
+    </div>
+
+    <div class="feature-card">
+      <span class="card-number">06</span>
+      <div class="card-title">Review<br>Requests &<br><em>Reputation</em></div>
+      <p class="card-desc">After every job, a perfectly timed ask goes out. More 5-star reviews, less chasing.</p>
+      <div class="card-accent"></div>
+    </div>
+
+    <div class="feature-card">
+      <span class="card-number">07</span>
+      <div class="card-title">Estimate &<br>Quote<br><em>Generation</em></div>
+      <p class="card-desc">Turn a few inputs into a polished, branded quote — ready to send in seconds, not hours.</p>
+      <div class="card-accent"></div>
+    </div>
+
+    <div class="feature-card">
+      <span class="card-number">08</span>
+      <div class="card-title">New Client<br>Onboarding<br><em>Flows</em></div>
+      <p class="card-desc">Intake forms, welcome messages, and next-step guides — all delivered the moment someone signs on.</p>
+      <div class="card-accent"></div>
+    </div>
+
+    <div class="feature-card">
+      <span class="card-number">09</span>
+      <div class="card-title">Reporting<br>& Business<br><em>Insights</em></div>
+      <p class="card-desc">Weekly digests that surface what's working, what's not, and where your next dollar should go.</p>
+      <div class="card-accent"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about">
+  <div class="about-label">Who's behind Beach</div>
+
+  <div class="about-left">
+    <div class="about-name">
+      Priyanka
+      <em>Founder</em>
+    </div>
+  </div>
+
+  <div class="about-right">
+    <p class="about-body">Hi, I'm Priyanka. I've worked in technology for eight years, primarily with startups building at the forefront of AI in Silicon Valley. I'm passionate about designing simple, effective systems that help small businesses save time, operate more efficiently, and grow sustainably.</p>
+    <p class="about-body">I've always enjoyed working closely with small companies and entrepreneurial teams. I believe the purpose of AI is not to replace human connection, but to reduce friction and make life easier for hardworking business owners. My approach is grounded in four core principles: keep things simple, never compromise on quality, maintain the highest standards of integrity and make work fun.</p>
+    <div class="principles">
+      <div class="principle">Keep it simple</div>
+      <div class="principle">Never compromise quality</div>
+      <div class="principle">Highest integrity</div>
+      <div class="principle">Make work fun</div>
+    </div>
   </div>
 </section>
 
@@ -276,14 +419,24 @@ footer span {
 </footer>
 
 <script>
-  // Card entrance animation
-  const cards = document.querySelectorAll('.feature-card');
+  // Card & about entrance animations
+  const animTargets = document.querySelectorAll('.feature-card, .about-left, .about-right');
   const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        // stagger cards by column position
+        if (e.target.classList.contains('feature-card')) {
+          const cards = [...document.querySelectorAll('.feature-card')];
+          const idx = cards.indexOf(e.target);
+          const col = idx % 3;
+          e.target.style.animationDelay = `${col * 0.1}s`;
+        }
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.15 });
-  cards.forEach(c => observer.observe(c));
+  }, { threshold: 0.12 });
+  animTargets.forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
